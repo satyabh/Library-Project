@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Library</title>
-    <h1>Library Tracker</h1>
+    <h1>Book Tracker</h1>
 </head>
 <body>
-    <div id="topdiv">
-    <button id="openDialog">Add Book</button></div>
-    <dialog id="myDialog">
+    <button id="openDialog">Add Book</button>
+    <dialog id="createDialog">
         <button id="closeDialog">X</button>
         <form id="bookDetails" method="dialog">
             <label for="title">Book Title: </label>
@@ -30,6 +29,28 @@
             <button type="submit">Create Book</button>
         </form>
     </dialog>
+
+    <dialog id="editDialog">
+        <button id="cancelDialog">X</button>
+        <form id="editDetails" method="dialog">
+            <label for="title">Book Title: </label>
+            <input type="text" name="title" id="name_input2" required>
+            <label for="author">Author: </label>
+            <input type="text" name="author" id="author_input2" required>
+            <label for="Year">Year Published: </label>
+            <input type="text" name="year" id="year_input2">
+            <label for="price">Price: </label>
+            <input type="text" name="price" id="price_input2">
+            <label for="pages">Pages: </label>
+            <input type="text" name="pages" id="pages_input2">
+            <label for="description">Description: </label>
+            <input type="text" name="description" id="description_input2">
+            <span>Finished? </span>
+            <input name="finish" type="checkbox" name="finish" id="finish_input2">
+            <button type="submit">Update</button>
+        </form>
+    </dialog>
+
     <div id="feed">
     </div>
     <script src="script.js"></script>

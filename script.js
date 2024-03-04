@@ -1,12 +1,14 @@
 const openDialog = document.getElementById('openDialog');
 const closeDialog = document.getElementById('closeDialog');
-const myDialog = document.getElementById('myDialog');
+const createDialog = document.getElementById('createDialog');
+const editDialog = document.getElementById('editDialog');
 const feed = document.getElementById('feed');
 const form = document.getElementById('bookDetails');
+const form2 = document.getElementById('editDetails');
 form.addEventListener('submit', function(event) {
   console.log("form submitted");
   event.preventDefault();
-  myDialog.close();
+  createDialog.close();
   const name = document.getElementById('name_input').value;
   const author = document.getElementById('author_input').value;
   const year = document.getElementById('year_input').value;
@@ -18,10 +20,13 @@ form.addEventListener('submit', function(event) {
   addBookToLibrary(name, author, year, price, pages, description, finish);
 })
 openDialog.addEventListener('click',function() {
-    myDialog.showModal();
+    createDialog.showModal();
 });
 closeDialog.addEventListener('click',function() {
-    myDialog.close();
+    createDialog.close();
+});
+cancelDialog.addEventListener('click',function() {
+  editDialog.close();
 });
 
 var myLibrary = [];
@@ -74,9 +79,12 @@ function makeCard(book) {
   readButton.textContent = "Read"
   readButton.className = book.finish ? 'green' : 'grey';
   readButton.addEventListener('click', () => toggle(book.dataID))
+  const editButton = Object.assign(document.createElement('button'), { className: 'edit' });
+  editButton.textContent = "Edit";
+  editButton.addEventListener('click', () => editBook(book.dataID));
   const deleteButton = Object.assign(document.createElement('button'), { className: 'delete' });
   deleteButton.textContent = "Delete";
-  deleteButton.addEventListener('click', () => removeBook(book.dataID))
+  deleteButton.addEventListener('click', () => removeBook(book.dataID));
   newCard.appendChild(title);
   newCard.appendChild(author);
   newCard.appendChild(year);
@@ -84,6 +92,7 @@ function makeCard(book) {
   newCard.appendChild(pages);
   newCard.appendChild(description);
   newCard.appendChild(readButton);
+  newCard.appendChild(editButton);
   newCard.appendChild(deleteButton);
   return newCard;
 }
@@ -100,6 +109,45 @@ function toggle(dataID) {
 }
 function removeBook(dataID) {
   myLibrary = myLibrary.filter(book => book.dataID !== dataID);
+  display();
+}
+
+function editBook(dataID) {
+  editDialog.showModal();
+  const book = myLibrary.find(book => book.dataID === dataID);
+  const editForm = document.getElementById('editDetails');
+  document.getElementById('name_input2').value = book.name;
+  document.getElementById('author_input2').value = book.author;
+  document.getElementById('year_input2').value = book.year;
+  document.getElementById('price_input2').value = book.price;
+  document.getElementById('pages_input2').value = book.pages;
+  document.getElementById('description_input2').value = book.description;
+  document.getElementById('finish_input2').value = book.finish;
+
+  form2.addEventListener('submit', function(event) {
+  console.log("form submitted");
+  event.preventDefault();
+  editDialog.close();
+  const name = document.getElementById('name_input2').value;
+  const author = document.getElementById('author_input2').value;
+  const year = document.getElementById('year_input2').value;
+  const price = document.getElementById('price_input2').value;
+  const pages = document.getElementById('pages_input2').value;
+  const description = document.getElementById('description_input2').value;
+  const finish = document.getElementById('finish_input2').value;
+  updateBook(dataID, name, author, year, price, pages, finish, description)
+  })
+}
+
+function updateBook(dataID, name, author, year, price, pages, finish, description) {
+  const book = myLibrary.find(book => book.dataID === dataID);
+  book.name = name;
+  book.author = author;
+  book.year = year;
+  book.price = price;
+  book.pages = pages;
+  book.finish = finish;
+  book.description = description;
   display();
 }
 
